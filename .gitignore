@@ -1,0 +1,15 @@
+# Python
+__pycache__/
+*.pyc
+*.pyo
+
+# Env
+.env
+
+# Desktop build
+competitor-monitor/desktop/dist/
+competitor-monitor/desktop/build/
+competitor-monitor/desktop/*.spec
+
+# VSCode
+.vscode/
