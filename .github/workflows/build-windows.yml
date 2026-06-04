@@ -1,0 +1,37 @@
+name: Build Windows EXE
+
+on:
+  push:
+    branches: [ main, master ]
+  workflow_dispatch: {}
+  release:
+    types: [created]
+
+jobs:
+  build-windows:
+    runs-on: windows-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.11'
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r competitor-monitor/requirements.txt || true
+          pip install pyinstaller pyqt6
+
+      - name: Build .exe
+        working-directory: competitor-monitor/desktop
+        run: |
+          python build.py
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: CompetitionMonitor-windows
+          path: competitor-monitor/desktop/dist/CompetitionMonitor.exe
